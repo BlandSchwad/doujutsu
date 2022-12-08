@@ -1,30 +1,42 @@
-import React, { useEffect } from 'react';
-import Card from 'react-bootstrap/Card';
-import { CardGroup } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import { useState } from 'react';
-import axios from 'axios';
-import { getDropdownMenuPlacement } from 'react-bootstrap/esm/DropdownMenu';
-import { propTypes } from 'react-bootstrap/esm/Image';
-import SeriesCard from './SeriesCard';
-import Bar from './Bar'
+import { CardGroup } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import SeriesCard from "./SeriesCard";
 
-function Libraries(props) {
-    
+function Libraries() {
+  const [libraryViewData, setLibraryViewData] = useState([]);
 
-    return (
-        <>
+  useEffect(() => {
+    axios
+      .get(`http://localhost:45001/libraries`)
+      .then((response) => {
+        setLibraryViewData(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        return err;
+      });
+  }, [setLibraryViewData]);
 
-        <main>
-            <h5>
-                Series Listing:
-            </h5>
-            
-            {props.data.series ?  <CardGroup> {props.data.series.map(series => { return <SeriesCard key={series.id} series={series}/>})} </CardGroup> : 'Loading Series'}             
-
-        </main>
-        </>
-    )
+  return (
+    <>
+      <h1>All Titles: </h1>
+      {libraryViewData
+        ? libraryViewData.map((library) => {
+            return (
+              <div className="libraryView" key={library.name}>
+                <h2 className="libraryName"> {library.name}:</h2>
+                <CardGroup>
+                  {library.children.map((series) => {
+                    return <SeriesCard key={series.id} series={series} />;
+                  })}{" "}
+                </CardGroup>
+              </div>
+            );
+          })
+        : "No Libraries Found"}{" "}
+    </>
+  );
 }
 
 export default Libraries;

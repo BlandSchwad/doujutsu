@@ -1,8 +1,4 @@
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { Button, Form, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import brandLogo from "./assets/brand.png";
 import { LinkContainer } from "react-router-bootstrap";
 import { Modal } from "react-bootstrap";
@@ -30,12 +26,15 @@ function Bar({ data }) {
       </Modal>
 
       <Navbar bg="primary">
-        <LinkContainer to="/crud">
+        <LinkContainer to="/">
           <Navbar.Brand color="primary" href="#">
             <img alt="dojutsu logo" src={brandLogo} width="45" /> Doujutsu
           </Navbar.Brand>
         </LinkContainer>
         <Nav className="BarLinks">
+          <LinkContainer to={"/crud"}>
+            <Nav.Link>Menu</Nav.Link>
+          </LinkContainer>
           <NavDropdown title="Libraries">
             <LinkContainer to={"/"}>
               <NavDropdown.Item key="allLibs">All</NavDropdown.Item>
@@ -58,7 +57,6 @@ function Bar({ data }) {
             </NavDropdown.Item>
           </NavDropdown>
 
-          <Nav.Link href="#menu">Menu</Nav.Link>
           <Form className="d-flex">
             <Form.Control
               type="search"

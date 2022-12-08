@@ -14,23 +14,27 @@ function App() {
   const [Data, setData] = useState({});
 
   useEffect(() => {
-    axios.get("http://localhost:45001/all").then((result) => {
-      setData(result.data);
-    });
+    axios
+      .get(
+        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/all`
+      )
+      .then((result) => {
+        setData(result.data);
+      })
+      .catch((err) => {
+        return err;
+      });
   }, []);
 
   return (
     <div className="App">
       <Bar data={Data} />
       <Routes>
-        <Route path="/" element={<Libraries data={Data} />} />
+        <Route path="/" element={<Libraries />} />
         <Route path="/series/:series_id" element={<Series />} />
         <Route path="/book/:book_id" element={<Book />} />
         <Route path="/read/:book_id" element={<Reader />} />
-        <Route
-          path="/library/:library_id"
-          element={<Library series={Data.series} />}
-        />
+        <Route path="/library/:library_id" element={<Library />} />
         <Route path="/crud" element={<Crud />} />
       </Routes>
     </div>

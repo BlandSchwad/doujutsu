@@ -1,30 +1,28 @@
-import Card from 'react-bootstrap/Card';
-import React from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
+import Card from "react-bootstrap/Card";
+import { LinkContainer } from "react-router-bootstrap";
 
-function BookCard ({Book}) {
-    return(
-        <div>
-        <div  className='BookCard'>
-            <Card>
-            <Card.Header className='BookCardHeader'>
-            <Card.Img variant='top' src={`http://localhost:45001/page/${Book.id}?page=0`}/>
-            </Card.Header>
-            <Card.Body>
-            <LinkContainer to={`/book/${Book.id}`} >
-                <Card.Link class='BookCardTitle'>
-                    {Book.name}
-                </Card.Link>
+function BookCard({ book }) {
+  let escapedBookId = book.id.replaceAll("/", "%2F");
+  return (
+    <div>
+      <div className="BookCard">
+        <Card>
+          <Card.Header className="BookCardHeader">
+            <Card.Img
+              variant="top"
+              src={`http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/page/${escapedBookId}?page=0`}
+            />
+          </Card.Header>
+          <Card.Body>
+            <LinkContainer to={`/book/${escapedBookId}`}>
+              <Card.Link className="BookCardTitle">{book.name}</Card.Link>
             </LinkContainer>
-                <Card.Subtitle>
-                    {Book.page_count} Pages
-                </Card.Subtitle>
-                </Card.Body>
-            </Card>
-        </div>
-        </div>
-    )
-
+            <Card.Subtitle>{book.page_count} Pages</Card.Subtitle>
+          </Card.Body>
+        </Card>
+      </div>
+    </div>
+  );
 }
 
 export default BookCard;
