@@ -8,14 +8,12 @@ import { useEffect, useState } from "react";
 function Library() {
   const { library_id } = useParams();
   const [libraryData, setLibraryData] = useState({});
+  const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
   useEffect(() => {
     axios
-      .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/library/${library_id}`
-      )
+      .get(`${serverUrl}/library/${library_id}`)
       .then((response) => {
         setLibraryData(response.data);
-        console.log("library!!");
       })
       .catch((err) => {
         return err;

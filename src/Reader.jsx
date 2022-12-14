@@ -7,35 +7,48 @@ import {
   Button,
   ToggleButton,
 } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { useParams, useLocation } from "react-router-dom";
 import * as Icon from "react-bootstrap-icons";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import "./Reader.css";
+import escapeId from "./assets/escapeId";
 
 function Reader() {
   const { book_id } = useParams();
+  const escapedBookId = escapeId(book_id);
+  const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
+
   const [show, setShow] = useState(false);
 
   const [cropMode, setCropMode] = useState(false);
   const [crop, setCrop] = useState({});
-  const [activePage, setactivePage] = useState(0);
+  const [activePage, setActivePage] = useState(0);
   const [translation, setTranslation] = useState("");
+  const [bookData, setBookData] = useState({});
+
+  useEffect(() => {
+    axios
+      .get(`${serverUrl}/book/${escapedBookId}`)
+      .then((response) => {
+        setBookData(response.data);
+      })
+      .catch((err) => {
+        return err;
+      });
+  }, []);
 
   const handleClose = () => setShow(false);
 
   function sendCrop() {
     let postData = crop;
     postData.res = document.getElementById("pageImage").clientWidth;
-    postData.url = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/page/${book_id}?page=${activePage}`;
+    postData.url = `${serverUrl}/page/${book_id}?page=${activePage}`;
 
     axios
-      .post(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/ocr`,
-        postData
-      )
+      .post(`${serverUrl}/ocr`, postData)
       .then((response) => {
         console.log(response.data);
         setTranslation(response.data);
@@ -46,17 +59,22 @@ function Reader() {
       });
   }
 
-  function incrementactivePage() {
-    setactivePage(activePage + 1);
+  function incrementActivePage() {
+    if (activePage === bookData.page_count) {
+      return;
+    } else {
+      setActivePage(activePage + 1);
+    }
   }
 
-  function decrementactivePage() {
+  function decrementActivePage() {
     if (activePage === 0) {
       return;
     } else {
-      setactivePage(activePage - 1);
+      setActivePage(activePage - 1);
     }
   }
+
   return (
     <div className="readerMenu" id="Reader">
       <Offcanvas
@@ -74,7 +92,7 @@ function Reader() {
             </Button>
           </div>
         </LinkContainer>
-        Book Title
+        {bookData.name ? bookData.name.slice(0, -4) : `Loading Book Title`}
         <Button onClick={sendCrop}>
           <Icon.Send />
         </Button>
@@ -123,9 +141,10 @@ function Reader() {
           <div>{activePage} </div>
           <Form.Range
             min={0}
+            max={bookData.page_count}
             value={activePage}
             onChange={(event) => {
-              setactivePage(parseInt(event.target.value));
+              setActivePage(parseInt(event.target.value));
             }}
           />{" "}
           <Button>
@@ -138,7 +157,7 @@ function Reader() {
       <div
         id="leftQuarter"
         className="pageQuarter"
-        onClick={decrementactivePage}
+        onClick={decrementActivePage}
       >
         {" "}
       </div>
@@ -150,9 +169,7 @@ function Reader() {
               <img
                 id="pageImage"
                 alt="Current Page!"
-                src={`http://${process.env.REACT_APP_BACKEND_SERVER}:${
-                  process.env.REACT_APP_BACKEND_PORT
-                }/page/${book_id.replaceAll("/", "%2F")}?page=${activePage}`}
+                src={`${serverUrl}/page/${escapedBookId}?page=${activePage}`}
               />
             </ReactCrop>
           </div>
@@ -164,9 +181,7 @@ function Reader() {
               }}
               id="pageImage"
               alt="Current Page!"
-              src={`http://${process.env.REACT_APP_BACKEND_SERVER}:${
-                process.env.REACT_APP_BACKEND_PORT
-              }/page/${book_id.replaceAll("/", "%2F")}?page=${activePage}`}
+              src={`${serverUrl}/page/${escapedBookId}?page=${activePage}`}
             />
           </div>
         )}
@@ -175,7 +190,7 @@ function Reader() {
       <div
         id="rightQuarter"
         className="pageQuarter"
-        onClick={incrementactivePage}
+        onClick={incrementActivePage}
       >
         {" "}
       </div>

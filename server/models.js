@@ -184,16 +184,14 @@ module.exports.getSeriesView = async (id) => {
   try {
     let result = await db.query(
       `
-      SELECT name, library_name, 
-        (SELECT json_agg(books) from 
-          (SELECT * from book where series_id = seriesView.id) as books) books
+      SELECT *
           FROM seriesView
-          WHERE seriesView.id = $1   
+          WHERE id = $1   
      `,
       [id]
     );
-    // console.log(result);
-    return result[0];
+    console.log(result);
+    return result;
   } catch (err) {
     return err;
   }

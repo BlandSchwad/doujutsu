@@ -17,6 +17,7 @@ function Crud() {
   const [editName, setEditName] = useState("");
   const [editDirectory, setEditDirectory] = useState("");
   const [editValidated, setEditValidated] = useState(false);
+  const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
 
   const handleHideAddModal = () => {
     setShowAddModal(false);
@@ -37,9 +38,7 @@ function Crud() {
 
   function getLibraries() {
     axios
-      .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/libraries`
-      )
+      .get(`${serverUrl}/libraries`)
       .then((result) => {
         console.log(result.data);
         setLibraries(result.data);
@@ -52,9 +51,7 @@ function Crud() {
 
   function getSeries(library_id) {
     axios
-      .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/library/${library_id}`
-      )
+      .get(`${serverUrl}/library/${library_id}`)
       .then((result) => {
         console.log(result.data);
         setSeries(result.data);
@@ -69,18 +66,14 @@ function Crud() {
   function addLibrary() {
     if (addValidated) {
       axios
-        .post(
-          `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/library`,
-          {
-            name: inputName,
-            path: inputDirectory,
-          }
-        )
+        .post(`${serverUrl}/library`, {
+          name: inputName,
+          path: inputDirectory,
+        })
         .then((result) => {
           console.log(result.data);
           handleHideAddModal();
           getLibraries();
-          console.log("factory");
           setAddValidated(false);
         })
         .catch((err) => {
@@ -93,13 +86,10 @@ function Crud() {
   function putLibrary() {
     if (editValidated) {
       axios
-        .put(
-          `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/library/${editLibrary.id}`,
-          {
-            name: editName,
-            path: editDirectory,
-          }
-        )
+        .put(`${serverUrl}/library/${editLibrary.id}`, {
+          name: editName,
+          path: editDirectory,
+        })
         .then((result) => {
           console.log(result.data);
           handleHideEditModal();
@@ -265,9 +255,7 @@ function Crud() {
                 <Button
                   onClick={() => {
                     axios
-                      .delete(
-                        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/library/${library.id}`
-                      )
+                      .delete(`${serverUrl}/library/${library.id}`)
                       .then(() => {
                         getLibraries();
                       });
@@ -286,9 +274,7 @@ function Crud() {
                 <Button
                   onClick={() => {
                     axios
-                      .get(
-                        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/library/scan/${library.id}`
-                      )
+                      .get(`${serverUrl}/library/scan/${library.id}`)
                       .then(() => {
                         getLibraries();
                       });

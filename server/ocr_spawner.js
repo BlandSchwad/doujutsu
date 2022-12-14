@@ -48,7 +48,6 @@ module.exports = class ocr_instance {
       .crop(data.width, data.height, data.x, data.y)
       .stream((err, stdout, stderr) => {
         var ws = fs.createWriteStream(`${process.env.OCR_READ_DIR}/in.jpg`);
-        // this.instance.stdin.pipe(process.env.OCR_WRITE_DIR);
         stdout.pipe(ws);
       });
   }

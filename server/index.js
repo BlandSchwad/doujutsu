@@ -18,10 +18,9 @@ const {
   pageViewController,
 } = require("./controllers");
 const path = require("path");
-// const { ocrPostController, ocrPost2 } = require("./ocrController");
-//const manga_ocr = require(`./spawner`);
-const ocr_spawner = require("./ocr_spawner");
+
 require("dotenv").config();
+const ocr_spawner = require("./ocr_spawner");
 let ocr = new ocr_spawner();
 console.log(path.join(__dirname, "..", "dist"));
 const app = express();
@@ -42,6 +41,7 @@ app.get("/all", fetchAllController);
 app.get("/libraries", librariesController);
 app.get("/library/scan/:library_id", libraryScanController);
 app.get("/library/:library_id", libraryController);
+
 app.delete("/library/:library_id", libraryDeleteController);
 app.post("/library", libraryPostController);
 app.put("/library/:library_id", libraryPutController);

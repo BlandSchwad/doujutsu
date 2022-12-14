@@ -5,10 +5,10 @@ import SeriesCard from "./SeriesCard";
 
 function Libraries() {
   const [libraryViewData, setLibraryViewData] = useState([]);
-
+  const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
   useEffect(() => {
     axios
-      .get(`http://localhost:45001/libraries`)
+      .get(`${serverUrl}/libraries`)
       .then((response) => {
         setLibraryViewData(response.data);
         console.log(response.data);
@@ -20,12 +20,12 @@ function Libraries() {
 
   return (
     <>
-      <h1>All Titles: </h1>
+      <h1>All Libraries: </h1>
       {libraryViewData
         ? libraryViewData.map((library) => {
             return (
               <div className="libraryView" key={library.name}>
-                <h2 className="libraryName"> {library.name}:</h2>
+                {/* <h2 className="libraryName"> {library.name}:</h2> */}
                 <CardGroup>
                   {library.children.map((series) => {
                     return <SeriesCard key={series.id} series={series} />;

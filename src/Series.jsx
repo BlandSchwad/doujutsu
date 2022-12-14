@@ -3,30 +3,26 @@ import { useEffect, useState } from "react";
 
 import { useParams, useNavigate } from "react-router-dom";
 import BookCard from "./BookCard";
-import { Button, CardGroup } from "react-bootstrap";
-
+import { Button, CardGroup, Container, Row, Col, Image } from "react-bootstrap";
+import escapeId from "./assets/escapeId";
+import "./Series.css";
 function Series() {
   const { series_id } = useParams();
 
-  let escapedSeriesId = series_id.replaceAll(`/`, `%2F`);
+  const escapedSeriesId = escapeId(series_id);
+  const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
 
   const [seriesData, setSeriesData] = useState({});
   const deleteSeries = () => {
-    axios
-      .delete(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/series/${escapedSeriesId}`
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    axios.delete(`${serverUrl}/series/${escapedSeriesId}`).catch((err) => {
+      console.log(err);
+    });
   };
   useEffect(() => {
     axios
-      .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/series/${escapedSeriesId}`
-      )
+      .get(`${serverUrl}/series/${escapedSeriesId}`)
       .then((response) => {
-        setSeriesData(response.data.seriesView);
+        setSeriesData(response.data[0]);
       })
       .catch((err) => {
         return err;
@@ -34,35 +30,38 @@ function Series() {
   }, [series_id]);
 
   return (
-    <div id="series">
-      <div id="SeriesBox">
-        <img
-          id="seriesThumb"
-          src="https://user-images.githubusercontent.com/101482/29592647-40da86ca-875a-11e7-8bc3-941700b0a323.png"
-          alt="The series thumbnail"
-        />
-        <div className="SeriesInfo">
-          <h1>
-            {seriesData.name
-              ? `${seriesData.name} in ${seriesData.library_name}`
-              : "Loading"}
-          </h1>
-          {seriesData.books ? (
-            <h2> {seriesData.books.length} Books</h2>
-          ) : (
-            "Loading "
-          )}
-          <Button
-            onClick={() => {
-              alert("SCANS!!!");
-            }}
-          >
-            Scan
-          </Button>{" "}
-          <Button onClick={deleteSeries}>Delete</Button>
-        </div>
-      </div>
-      <div className="BookList">
+    <Container fluid>
+      <Row>
+        <Col xs="auto">
+          <Image
+            id="seriesThumb"
+            src={
+              seriesData.books
+                ? `${serverUrl}/page/${seriesData.books[0].id}?page=0`
+                : `https://user-images.githubusercontent.com/101482/29592647-40da86ca-875a-11e7-8bc3-941700b0a323.png`
+            }
+            alt="The series thumbnail"
+            thumbnail
+          />
+        </Col>
+        <Col xs="auto">
+          <div className="SeriesInfo">
+            <h1>
+              {seriesData.name
+                ? `${seriesData.name} in ${seriesData.library_name}`
+                : "Loading"}
+            </h1>
+            {seriesData.books ? (
+              <h2> {seriesData.books.length} Books</h2>
+            ) : (
+              "Loading "
+            )}{" "}
+            <Button onClick={deleteSeries}>Delete</Button>
+          </div>
+        </Col>
+      </Row>
+
+      <Row>
         <div id="bookCardList">
           {seriesData.books ? (
             <CardGroup>
@@ -74,8 +73,8 @@ function Series() {
             "Loading Books"
           )}
         </div>
-      </div>
-    </div>
+      </Row>
+    </Container>
   );
 }
 export default Series;

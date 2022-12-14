@@ -16,30 +16,7 @@ const {
 } = require("./models.js");
 const unzipit = require("unzipit");
 const { hashElement } = require("folder-hash");
-
-class FileReader {
-  constructor(filename) {
-    this.fhp = fsPromises.open(filename);
-  }
-  async close() {
-    const fh = await this.fhp;
-    await fh.close();
-  }
-  async getLength() {
-    if (this.length === undefined) {
-      const fh = await this.fhp;
-      const stat = await fh.stat();
-      this.length = stat.size;
-    }
-    return this.length;
-  }
-  async read(offset, length) {
-    const fh = await this.fhp;
-    const data = new Uint8Array(length);
-    await fh.read(data, 0, length, offset);
-    return data;
-  }
-}
+const FileReader = require("./FileReader");
 
 module.exports.scanBook = async (book) => {
   try {
@@ -171,12 +148,17 @@ module.exports.hashScanSeries = async (seriesId) => {
   if (dbBookList.length === 0) {
     hashedSeries.children.forEach(async (child) => {
       let cDate = Date.now();
+      let bookSize = await fsPromises.stat(
+        `${seriesInfo.file_path}/${seriesInfo.name}/${child.name}`
+      );
+      console.log(`Size Check: ${bookSize.size}`);
       let addBookResult = await addBook({
         id: child.hash,
         created_date: cDate,
         last_modified_date: cDate,
         name: child.name,
         series_id: seriesId,
+        file_size: bookSize.size,
         file_path: `${seriesInfo.file_path}/${seriesInfo.name}`,
         library_id: seriesInfo.library_id,
       });

@@ -1,5 +1,4 @@
 const unzipit = require("unzipit");
-const fsPromises = require("fs").promises;
 
 const {
   getLibViews,
@@ -19,30 +18,7 @@ const {
 var SHA1 = require("crypto-js/sha1");
 var B64U = require("crypto-js/enc-base64url");
 const { hashScanLibrary } = require("./scanner.js");
-
-class FileReader {
-  constructor(filename) {
-    this.fhp = fsPromises.open(filename);
-  }
-  async close() {
-    const fh = await this.fhp;
-    await fh.close();
-  }
-  async getLength() {
-    if (this.length === undefined) {
-      const fh = await this.fhp;
-      const stat = await fh.stat();
-      this.length = stat.size;
-    }
-    return this.length;
-  }
-  async read(offset, length) {
-    const fh = await this.fhp;
-    const data = new Uint8Array(length);
-    await fh.read(data, 0, length, offset);
-    return data;
-  }
-}
+const FileReader = require("./FileReader");
 
 module.exports.librariesController = async function (req, res) {
   try {
@@ -149,8 +125,9 @@ module.exports.seriesController = async function (req, res) {
   try {
     let seriesView = await getSeriesView(req.params.series_id);
     // let bookList = await getBooks(req.params.series_id);
+
     // let seriesInfo = await getSeriesInfo(req.params.series_id);
-    res.status(200).send({ seriesView });
+    res.status(200).send(seriesView);
   } catch (err) {
     res.status(500).send(err);
   }
