@@ -1,5 +1,5 @@
 const unzipit = require("unzipit");
-
+const axios = require("axios");
 const {
   getLibViews,
   getLibView,
@@ -201,4 +201,17 @@ module.exports.pageViewController = (req, res) => {
       console.log(err);
       res.send(err);
     });
+};
+
+//OCR
+
+module.exports.ocrController = async (req, res) => {
+  try {
+    //Update url with env
+    let kanji = await axios.post("http://localhost:8000", req.body);
+    res.status(201).send(kanji.data);
+  } catch (err) {
+    console.log(err);
+    res.status(401).send(err);
+  }
 };

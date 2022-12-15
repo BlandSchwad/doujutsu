@@ -44,7 +44,8 @@ function Reader() {
 
   function sendCrop() {
     let postData = crop;
-    postData.res = document.getElementById("pageImage").clientWidth;
+    let pageData = document.getElementById("pageImage");
+    postData.res = [pageData.clientWidth, pageData.clientHeight];
     postData.url = `${serverUrl}/page/${book_id}?page=${activePage}`;
 
     axios
