@@ -1,9 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const fs = require("fs");
-const { waitFor } = require("wait-for-event");
-const axios = require("axios");
+
 const {
   seriesController,
   librariesController,
@@ -21,7 +19,6 @@ const {
 const path = require("path");
 
 require("dotenv").config();
-const ocr_spawner = require("./ocr_spawner");
 
 console.log(path.join(__dirname, "..", "dist"));
 const app = express();
@@ -29,12 +26,11 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "..", "dist")));
-console.log(`Starting Doujutsu Server`);
-app.listen(process.env.SERVER_PORT);
-
-console.log(
-  `Doujutsu Server ready, listening on port ${process.env.SERVER_PORT}`
-);
+app.listen(process.env.SERVER_PORT, "0.0.0.0", () => {
+  console.log(
+    `Doujutsu Server ready, listening on port ${process.env.SERVER_PORT}`
+  );
+});
 
 app.get("/all", fetchAllController);
 

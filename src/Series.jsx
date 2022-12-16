@@ -1,10 +1,11 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { useParams, useNavigate } from "react-router-dom";
 import BookCard from "./BookCard";
 import { Button, CardGroup, Container, Row, Col, Image } from "react-bootstrap";
 import escapeId from "./assets/escapeId";
+import api from "./assets/api";
 import "./Series.css";
 function Series() {
   const { series_id } = useParams();
@@ -14,13 +15,13 @@ function Series() {
 
   const [seriesData, setSeriesData] = useState({});
   const deleteSeries = () => {
-    axios.delete(`${serverUrl}/series/${escapedSeriesId}`).catch((err) => {
+    api.delete(`/series/${escapedSeriesId}`).catch((err) => {
       console.log(err);
     });
   };
   useEffect(() => {
-    axios
-      .get(`${serverUrl}/series/${escapedSeriesId}`)
+    api
+      .get(`/series/${escapedSeriesId}`)
       .then((response) => {
         setSeriesData(response.data[0]);
       })

@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
+import api from "./assets/api";
 import { useParams } from "react-router-dom";
 import { CardGroup } from "react-bootstrap";
 import SeriesCard from "./SeriesCard";
@@ -10,8 +11,8 @@ function Library() {
   const [libraryData, setLibraryData] = useState({});
   const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
   useEffect(() => {
-    axios
-      .get(`${serverUrl}/library/${library_id}`)
+    api
+      .get(`/library/${library_id}`)
       .then((response) => {
         setLibraryData(response.data);
       })

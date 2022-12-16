@@ -14,7 +14,8 @@ const {
   getPageView,
   getSeriesView,
 } = require("./models.js");
-// const { getSeriesView } = require("./ripsaw");
+require("dotenv").config();
+const { OCR_SERVER_URL, OCR_SERVER_PORT } = process.env;
 var SHA1 = require("crypto-js/sha1");
 var B64U = require("crypto-js/enc-base64url");
 const { hashScanLibrary } = require("./scanner.js");
@@ -208,7 +209,10 @@ module.exports.pageViewController = (req, res) => {
 module.exports.ocrController = async (req, res) => {
   try {
     //Update url with env
-    let kanji = await axios.post("http://localhost:8000", req.body);
+    let kanji = await axios.post(
+      `http://${OCR_SERVER_URL}:${OCR_SERVER_PORT}`,
+      req.body
+    );
     res.status(201).send(kanji.data);
   } catch (err) {
     console.log(err);

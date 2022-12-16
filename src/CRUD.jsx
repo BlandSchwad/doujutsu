@@ -1,5 +1,5 @@
-import axios from "axios";
-
+// import axios from "axios";
+import api from "./assets/api";
 import { useEffect, useState } from "react";
 import { Button, Modal, Form, FloatingLabel, CardGroup } from "react-bootstrap";
 import SeriesCard from "./SeriesCard";
@@ -37,8 +37,8 @@ function Crud() {
   };
 
   function getLibraries() {
-    axios
-      .get(`${serverUrl}/libraries`)
+    api
+      .get(`/libraries`)
       .then((result) => {
         console.log(result.data);
         setLibraries(result.data);
@@ -50,8 +50,8 @@ function Crud() {
   }
 
   function getSeries(library_id) {
-    axios
-      .get(`${serverUrl}/library/${library_id}`)
+    api
+      .get(`/library/${library_id}`)
       .then((result) => {
         console.log(result.data);
         setSeries(result.data);
@@ -65,8 +65,8 @@ function Crud() {
 
   function addLibrary() {
     if (addValidated) {
-      axios
-        .post(`${serverUrl}/library`, {
+      api
+        .post(`/library`, {
           name: inputName,
           path: inputDirectory,
         })
@@ -85,8 +85,8 @@ function Crud() {
 
   function putLibrary() {
     if (editValidated) {
-      axios
-        .put(`${serverUrl}/library/${editLibrary.id}`, {
+      api
+        .put(`/library/${editLibrary.id}`, {
           name: editName,
           path: editDirectory,
         })
@@ -254,11 +254,9 @@ function Crud() {
                 {/* <p>Last Modified: {new Date(library.last_modified_date).toString()}</p> */}
                 <Button
                   onClick={() => {
-                    axios
-                      .delete(`${serverUrl}/library/${library.id}`)
-                      .then(() => {
-                        getLibraries();
-                      });
+                    api.delete(`/library/${library.id}`).then(() => {
+                      getLibraries();
+                    });
                   }}
                 >
                   Delete
@@ -273,11 +271,9 @@ function Crud() {
                 </Button>
                 <Button
                   onClick={() => {
-                    axios
-                      .get(`${serverUrl}/library/scan/${library.id}`)
-                      .then(() => {
-                        getLibraries();
-                      });
+                    api.get(`/library/scan/${library.id}`).then(() => {
+                      getLibraries();
+                    });
                   }}
                 >
                   Scan

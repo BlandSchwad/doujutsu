@@ -3,21 +3,23 @@ import { Routes, Route } from "react-router-dom";
 import Libraries from "./Libraries";
 import Bar from "./Bar";
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 import Series from "./Series";
 import Book from "./Book";
 import Reader from "./Reader";
 import Library from "./Library";
 import Crud from "./CRUD";
-
+import api from "./assets/api";
 function App() {
   const [Data, setData] = useState({});
 
   useEffect(() => {
-    axios
-      .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/all`
-      )
+    api
+      .get("./all")
+      // axios
+      //   .get(
+      //     `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/all`
+      //   )
       .then((result) => {
         setData(result.data);
       })

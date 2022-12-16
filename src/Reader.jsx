@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import {
   Alert,
   ButtonGroup,
@@ -15,6 +15,7 @@ import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import "./Reader.css";
 import escapeId from "./assets/escapeId";
+import api from "./assets/api";
 
 function Reader() {
   const { book_id } = useParams();
@@ -30,8 +31,8 @@ function Reader() {
   const [bookData, setBookData] = useState({});
 
   useEffect(() => {
-    axios
-      .get(`${serverUrl}/book/${escapedBookId}`)
+    api
+      .get(`/book/${escapedBookId}`)
       .then((response) => {
         setBookData(response.data);
       })
@@ -48,8 +49,8 @@ function Reader() {
     postData.res = [pageData.clientWidth, pageData.clientHeight];
     postData.url = `${serverUrl}/page/${book_id}?page=${activePage}`;
 
-    axios
-      .post(`${serverUrl}/ocr`, postData)
+    api
+      .post(`/ocr`, postData)
       .then((response) => {
         console.log(response.data);
         setTranslation(response.data);

@@ -1,4 +1,5 @@
-import axios from "axios";
+// import axios from "axios";
+import api from "./assets/api";
 import { useEffect, useState } from "react";
 import { Button, Container, Row, Col, Image } from "react-bootstrap";
 import { useParams } from "react-router-dom";
@@ -12,8 +13,10 @@ function Book() {
   const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
 
   useEffect(() => {
-    axios
-      .get(`${serverUrl}/book/${escapedBookId}`)
+    api
+      .get(`/book/${escapedBookId}`)
+      // axios
+      //   .get(`${serverUrl}/book/${escapedBookId}`)
       .then((response) => {
         setBookData(response.data);
       })
