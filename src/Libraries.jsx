@@ -21,7 +21,7 @@ function Libraries() {
   return (
     <>
       <h1>All Libraries: </h1>
-      {libraryViewData
+      {libraryViewData.length > 0
         ? libraryViewData.map((library) => {
             return (
               <div className="libraryView" key={library.name}>

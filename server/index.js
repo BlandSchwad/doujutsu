@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "..", "dist")));
-app.listen(process.env.SERVER_PORT, "0.0.0.0", () => {
+app.listen(process.env.SERVER_PORT, () => {
   console.log(
     `Doujutsu Server ready, listening on port ${process.env.SERVER_PORT}`
   );
