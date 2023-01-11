@@ -1,40 +1,42 @@
-import { CardGroup } from "react-bootstrap";
-import { useEffect, useState } from "react";
-// import axios from "axios";
+import { CardGroup, Row, Col, Container } from "react-bootstrap";
+
 import SeriesCard from "./SeriesCard";
-import api from "./assets/api";
+import { useGetAllSeriesQuery } from "./services/mangaserver";
+import ToolBar from "./Toolbar";
+import Bar2 from "./Bar2";
+
 function Libraries() {
-  const [libraryViewData, setLibraryViewData] = useState([]);
-  const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
-  useEffect(() => {
-    api
-      .get(`/libraries`)
-      .then((response) => {
-        setLibraryViewData(response.data);
-        console.log(response.data);
-      })
-      .catch((err) => {
-        return err;
-      });
-  }, [setLibraryViewData]);
+  const { data, error, isLoading } = useGetAllSeriesQuery();
 
   return (
     <>
-      <h1>All Libraries: </h1>
-      {libraryViewData.length > 0
-        ? libraryViewData.map((library) => {
-            return (
-              <div className="libraryView" key={library.name}>
-                {/* <h2 className="libraryName"> {library.name}:</h2> */}
-                <CardGroup>
-                  {library.children.map((series) => {
-                    return <SeriesCard key={series.id} series={series} />;
-                  })}{" "}
-                </CardGroup>
-              </div>
-            );
-          })
-        : "No Libraries Found"}{" "}
+      <Bar2 />
+      <Container fluid>
+        <Row>
+          <ToolBar barType="all" data={data} title={"All Libraries"} />
+        </Row>
+        <Row>
+          {error ? (
+            <>Error</>
+          ) : isLoading ? (
+            <>LOADING</>
+          ) : data ? (
+            data.length > 0 ? (
+              <CardGroup>
+                {data.map((series) => {
+                  return (
+                    <Col key={series.id}>
+                      <SeriesCard series={series} />
+                    </Col>
+                  );
+                })}
+              </CardGroup>
+            ) : (
+              <>No Series Found</>
+            )
+          ) : null}
+        </Row>
+      </Container>
     </>
   );
 }

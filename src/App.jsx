@@ -10,27 +10,12 @@ import Reader from "./Reader";
 import Library from "./Library";
 import Crud from "./CRUD";
 import api from "./assets/api";
+
+import Sandbox from "./Sandbox";
 function App() {
-  const [Data, setData] = useState({});
-
-  useEffect(() => {
-    api
-      .get("./all")
-      // axios
-      //   .get(
-      //     `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}/all`
-      //   )
-      .then((result) => {
-        setData(result.data);
-      })
-      .catch((err) => {
-        return err;
-      });
-  }, []);
-
   return (
     <div className="App">
-      <Bar data={Data} />
+      {/* <Bar data={Data} /> */}
       <Routes>
         <Route path="/" element={<Libraries />} />
         <Route path="/series/:series_id" element={<Series />} />
@@ -38,6 +23,7 @@ function App() {
         <Route path="/read/:book_id" element={<Reader />} />
         <Route path="/library/:library_id" element={<Library />} />
         <Route path="/crud" element={<Crud />} />
+        <Route path="/test" element={<Sandbox />} />
       </Routes>
     </div>
   );

@@ -1,4 +1,4 @@
-import Card from "react-bootstrap/Card";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import "./SeriesCard.css";
@@ -10,25 +10,33 @@ function SeriesCard({ series }) {
   return (
     <div className="SeriesCard">
       <Card bg="secondary" border="primary">
-        <Card.Header>
-          <Card.Img
-            variant="top"
-            src={
-              series.books.length > 0
-                ? `${serverUrl}/page/${escapeId(series.books[0].id)}?page=0`
-                : "https://static.wikia.nocookie.net/villains/images/9/9f/Dr._Robotnik_%28AOSTH%292.png"
-            }
-          />
-        </Card.Header>
-        <Card.Body>
-          <LinkContainer to={`/series/${series.id.replaceAll("/", "%2F")}`}>
-            <Card.Link>{series.name}</Card.Link>
-          </LinkContainer>
-        </Card.Body>
-        <Card.Subtitle>
-          {" "}
-          Books: {series.books ? series.books.length : ` loading!`}
-        </Card.Subtitle>
+        <Col>
+          <Row>
+            <Card.Header>
+              <Card.Img
+                variant="top"
+                src={
+                  series.books.length > 0
+                    ? `${serverUrl}/page/${escapeId(series.books[0].id)}?page=0`
+                    : "https://static.wikia.nocookie.net/villains/images/9/9f/Dr._Robotnik_%28AOSTH%292.png"
+                }
+              />
+            </Card.Header>
+          </Row>
+          <Row>
+            <Card.Body>
+              <LinkContainer to={`/series/${series.id.replaceAll("/", "%2F")}`}>
+                <Card.Link>{series.name}</Card.Link>
+              </LinkContainer>
+            </Card.Body>
+          </Row>
+          <Row>
+            <Card.Subtitle>
+              {" "}
+              Books: {series.books ? series.books.length : ` loading!`}
+            </Card.Subtitle>
+          </Row>
+        </Col>
       </Card>
     </div>
   );

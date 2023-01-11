@@ -1,7 +1,10 @@
 .BookCard {
+  padding: 10%;
+}
+/* .BookCard {
   padding: 1%;
-  width: 12vw;
-  height: 1vh;
+  width: min-content;
+  height: min-content;
 }
 .card-body {
   display: flex;
@@ -12,3 +15,6 @@
   overflow: visible;
   overflow-wrap: break-word;
 }
+.card-img {
+  object-fit: contain;
+} */

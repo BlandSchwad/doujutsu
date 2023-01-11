@@ -1,4 +1,5 @@
-// import axios from "axios";
+//TO DO  CONDITIONAL THE SEND OCR BUTTON SHOULD BE DISABLED IF CROP MODE ISN'T ACTIVE
+
 import {
   Alert,
   ButtonGroup,
@@ -6,6 +7,7 @@ import {
   Offcanvas,
   Button,
   ToggleButton,
+  Image,
 } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
@@ -166,9 +168,9 @@ function Reader() {
 
       <div id="center">
         {cropMode ? (
-          <div className="pageContainer">
+          <div>
             <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
-              <img
+              <Image
                 id="pageImage"
                 alt="Current Page!"
                 src={`${serverUrl}/page/${escapedBookId}?page=${activePage}`}
@@ -176,8 +178,8 @@ function Reader() {
             </ReactCrop>
           </div>
         ) : (
-          <div>
-            <img
+          <>
+            <Image
               onClick={() => {
                 setShow(!show);
               }}
@@ -185,7 +187,7 @@ function Reader() {
               alt="Current Page!"
               src={`${serverUrl}/page/${escapedBookId}?page=${activePage}`}
             />
-          </div>
+          </>
         )}
       </div>
 

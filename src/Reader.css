@@ -12,8 +12,9 @@
 }
 
 #pageImage {
-  max-width: fit-content;
+  max-width: 100vw;
   max-height: 100vh;
+  object-fit: contain;
 }
 
 #topMenu {
@@ -23,6 +24,8 @@
   justify-content: space-between;
   align-items: center;
   height: min-content;
+
+  overflow: hidden;
 }
 
 #bottomMenu {
@@ -48,13 +51,6 @@
 
 #bGroup {
   padding: 1vh;
-}
-
-.card-img-top {
-  padding: 0%;
-  width: 100%;
-  height: 10vw;
-  object-fit: contain;
 }
 
 .pageContainer {
@@ -87,4 +83,9 @@
 
 #scardview {
   height: auto;
+}
+
+#center {
+  width: 50vw;
+  height: 100vh;
 }

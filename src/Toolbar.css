@@ -1,0 +1,14 @@
+#toolbar {
+  background-color: #36317c;
+  margin: 0;
+  padding: 4;
+}
+
+.toolbar-button-group {
+}
+
+.toolbar-button-group > .btn {
+  height: fit-content;
+  width: auto;
+  margin: 1%;
+}

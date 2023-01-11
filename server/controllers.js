@@ -13,6 +13,7 @@ const {
   addLibrary,
   getPageView,
   getSeriesView,
+  getSeriesInfo,
 } = require("./models.js");
 require("dotenv").config();
 const { OCR_SERVER_URL, OCR_SERVER_PORT } = process.env;
@@ -217,5 +218,15 @@ module.exports.ocrController = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(401).send(err);
+  }
+};
+
+module.exports.allSeries = async (req, res) => {
+  try {
+    let result = await getSeriesInfo();
+    console.log(result);
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(500).send(err);
   }
 };

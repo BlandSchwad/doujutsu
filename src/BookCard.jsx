@@ -1,4 +1,4 @@
-import Card from "react-bootstrap/Card";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./BookCard.css";
 
@@ -8,19 +8,26 @@ function BookCard({ book }) {
   return (
     <div className="BookCard">
       <Card bg="secondary" border="primary">
-        <Card.Header className="BookCardHeader">
-          <Card.Img
-            fluid
-            variant="top"
-            src={`${serverUrl}/page/${escapedBookId}?page=0`}
-          />
-        </Card.Header>
-        <Card.Body>
-          <LinkContainer to={`/book/${escapedBookId}`}>
-            <Card.Link className="BookCardTitle">{book.name}</Card.Link>
-          </LinkContainer>
-        </Card.Body>
-        <Card.Subtitle>{book.page_count} Pages</Card.Subtitle>
+        <Col>
+          <Row>
+            <Card.Header className="BookCardHeader">
+              <Card.Img
+                variant="top"
+                src={`${serverUrl}/page/${escapedBookId}?page=0`}
+              />
+            </Card.Header>
+          </Row>
+          <Row>
+            <Card.Body>
+              <LinkContainer to={`/book/${escapedBookId}`}>
+                <Card.Link className="BookCardTitle">{book.name}</Card.Link>
+              </LinkContainer>
+            </Card.Body>
+          </Row>
+          <Row>
+            <Card.Subtitle>{book.page_count} Pages</Card.Subtitle>
+          </Row>
+        </Col>
       </Card>
     </div>
   );

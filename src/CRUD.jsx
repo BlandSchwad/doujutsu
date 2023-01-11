@@ -3,6 +3,13 @@ import api from "./assets/api";
 import { useEffect, useState } from "react";
 import { Button, Modal, Form, FloatingLabel, CardGroup } from "react-bootstrap";
 import SeriesCard from "./SeriesCard";
+import Bar2 from "./Bar2";
+import {
+  useAddNewLibraryMutation,
+  useDeleteLibraryMutation,
+  useGetAllLibrariesQuery,
+  usePatchLibraryMutation,
+} from "./services/mangaserver";
 
 function Crud() {
   const [libraries, setLibraries] = useState([]);
@@ -17,6 +24,10 @@ function Crud() {
   const [editName, setEditName] = useState("");
   const [editDirectory, setEditDirectory] = useState("");
   const [editValidated, setEditValidated] = useState(false);
+  const [addNewLibrary, { isLoading }] = useAddNewLibraryMutation();
+  const [patchLibrary] = usePatchLibraryMutation();
+  const { data, error, loadingLibraries } = useGetAllLibrariesQuery();
+  const [deleteLibrary, response] = useDeleteLibraryMutation();
   const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
 
   const handleHideAddModal = () => {
@@ -36,89 +47,36 @@ function Crud() {
     setEditDirectory("");
   };
 
-  function getLibraries() {
-    api
-      .get(`/libraries`)
-      .then((result) => {
-        console.log(result.data);
-        setLibraries(result.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-  }
-
-  function getSeries(library_id) {
-    api
-      .get(`/library/${library_id}`)
-      .then((result) => {
-        console.log(result.data);
-        setSeries(result.data);
-        return result.data;
-      })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-  }
-
-  function addLibrary() {
-    if (addValidated) {
-      api
-        .post(`/library`, {
-          name: inputName,
-          path: inputDirectory,
-        })
-        .then((result) => {
-          console.log(result.data);
-          handleHideAddModal();
-          getLibraries();
-          setAddValidated(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          return err;
-        });
-    }
-  }
-
-  function putLibrary() {
-    if (editValidated) {
-      api
-        .put(`/library/${editLibrary.id}`, {
-          name: editName,
-          path: editDirectory,
-        })
-        .then((result) => {
-          console.log(result.data);
-          handleHideEditModal();
-          getLibraries();
-        })
-        .catch((err) => {
-          console.log(err);
-          return err;
-        });
-    }
-  }
-
-  const handleAddSubmit = (event) => {
+  const handleNewEditSubmit = async (event) => {
     event.preventDefault();
-
     if (addValidated === false) {
       event.stopPropagation();
     }
-    setAddValidated(true);
-    addLibrary();
-  };
 
-  const handlEditSubmit = (event) => {
+    try {
+      await patchLibrary({
+        id: editLibrary.id,
+        name: editName,
+        path: editDirectory,
+      });
+      handleHideEditModal();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleNewAddSubmit = async (event) => {
     event.preventDefault();
-    if (editValidated === false) {
+    if (addValidated === false) {
       event.stopPropagation();
     }
-    setEditValidated(true);
-    putLibrary();
+
+    try {
+      await addNewLibrary({ name: inputName, path: inputDirectory });
+      handleHideAddModal();
+      setAddValidated(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -146,7 +104,7 @@ function Crud() {
                 )
               }
               validated={addValidated}
-              onSubmit={handleAddSubmit}
+              onSubmit={handleNewAddSubmit}
             >
               <FloatingLabel label={`Name`}>
                 <Form.Control
@@ -190,10 +148,10 @@ function Crud() {
           show={showEditModal}
           onHide={handleHideEditModal}
         >
-          <Modal.Header closeButton>Edit Library {editLibrary.id}</Modal.Header>
+          <Modal.Header closeButton>Edit Library</Modal.Header>
           <Modal.Body className="mb">
             <Form
-              noValidate達哉
+              noValidate
               validated={editValidated}
               onChange={(e) => {
                 setEditValidated(
@@ -203,24 +161,27 @@ function Crud() {
                       .checkValidity()
                 );
               }}
-              onSubmit={handlEditSubmit}
+              onSubmit={handleNewEditSubmit}
+              // onSubmit={handlEditSubmit}
             >
               <Form.Group>
-                <FloatingLabel label={editLibrary.name}>
+                <FloatingLabel label={"Name"}>
                   <Form.Control
                     id="EditLibraryName"
                     type="text"
                     placeholder="Name"
                     onChange={(e) => setEditName(e.target.value)}
+                    defaultValue={editLibrary.name}
                     required
                   />
                 </FloatingLabel>
-                <FloatingLabel label={editLibrary.file_path}>
+                <FloatingLabel label={"Root Folder"}>
                   <Form.Control
                     id="EditLibraryDirectory"
                     onChange={(e) => setEditDirectory(e.target.value)}
                     type="text"
                     placeholder="Directory"
+                    defaultValue={editLibrary.file_path}
                     required
                   />
                 </FloatingLabel>
@@ -230,12 +191,15 @@ function Crud() {
           </Modal.Body>
         </Modal>
       </>
-
-      {libraries.length > 0 && (
-        <div id="libList">
+      <Bar2 />
+      {error ? (
+        <>ERROR</>
+      ) : loadingLibraries ? (
+        <>LOADING</>
+      ) : data ? (
+        <>
           <h1>Libraries </h1>
-
-          {libraries.map((library) => {
+          {data.map((library) => {
             return (
               <div key={library.id} className="libraryView">
                 <ul>
@@ -254,9 +218,10 @@ function Crud() {
                 {/* <p>Last Modified: {new Date(library.last_modified_date).toString()}</p> */}
                 <Button
                   onClick={() => {
-                    api.delete(`/library/${library.id}`).then(() => {
-                      getLibraries();
-                    });
+                    deleteLibrary(library.id);
+                    // api.delete(`/library/${library.id}`).then(() => {
+                    //   getLibraries();
+                    // });
                   }}
                 >
                   Delete
@@ -278,32 +243,12 @@ function Crud() {
                 >
                   Scan
                 </Button>
-                {/* <Button
-                  onClick={() => {
-                    getSeries(library.id);
-                  }}
-                >
-                  {library.children.length > 0 ? `Refresh` : `Get Series`}
-                </Button>
-                <div id="seriesList"></div>
-                <div id="scardgroup">
-                  {library.children.length > 0 && (
-                    <CardGroup>
-                      {library.children.map((s) => {
-                        return <SeriesCard key={s.id} series={s} />;
-                      })}
-                    </CardGroup>
-                  )}{" "}
-                </div> */}
               </div>
             );
-          })}
-        </div>
-      )}
+          })}{" "}
+        </>
+      ) : null}
 
-      <Button onClick={getLibraries}>
-        {libraries.length > 0 ? `Refresh` : `Get Libraries`}
-      </Button>
       <Button onClick={handleShowAddModal}>Add Library</Button>
     </div>
   );

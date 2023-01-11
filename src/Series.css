@@ -1,3 +1,5 @@
 #seriesThumb {
-  width: 30vh;
+  height: 50vh;
+  width: auto;
+  object-fit: contain;
 }

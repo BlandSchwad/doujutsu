@@ -1,37 +1,47 @@
 import React from "react";
 // import axios from "axios";
-import api from "./assets/api";
+import Bar2 from "./Bar2";
 import { useParams } from "react-router-dom";
-import { CardGroup } from "react-bootstrap";
+import { CardGroup, Col, Container, Row } from "react-bootstrap";
 import SeriesCard from "./SeriesCard";
-import { useEffect, useState } from "react";
+
+import { useGetLibraryQuery } from "./services/mangaserver";
+
+import ToolBar from "./Toolbar";
 
 function Library() {
   const { library_id } = useParams();
-  const [libraryData, setLibraryData] = useState({});
-  const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
-  useEffect(() => {
-    api
-      .get(`/library/${library_id}`)
-      .then((response) => {
-        setLibraryData(response.data);
-      })
-      .catch((err) => {
-        return err;
-      });
-  }, [library_id]);
 
-  let seriesCards = libraryData.children
-    ? libraryData.children.map((series) => {
-        return <SeriesCard key={series.id} series={series} />;
-      })
-    : [];
+  const { data, error, isLoading } = useGetLibraryQuery(library_id);
 
   return (
-    <div id="LibraryView">
-      <h1>Series in {libraryData.name}:</h1>
-      {seriesCards ? <CardGroup> {seriesCards} </CardGroup> : `Loading`}
-    </div>
+    <>
+      <Bar2 />
+      <ToolBar barType="library" data={data} />
+      <Container fluid>
+        {error ? (
+          <>Error</>
+        ) : isLoading ? (
+          <>Loading</>
+        ) : data ? (
+          <>
+            <Row>
+              <CardGroup>
+                {data.children.map((series) => {
+                  return (
+                    <Col key={series.id}>
+                      {" "}
+                      <SeriesCard series={series} />{" "}
+                    </Col>
+                  );
+                })}
+              </CardGroup>
+            </Row>
+          </>
+        ) : null}
+        <Row>{/* <ToolBar barType="library" data={libraryData} /> */}</Row>
+      </Container>
+    </>
   );
 }
 

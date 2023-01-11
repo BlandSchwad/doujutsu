@@ -75,7 +75,7 @@ CREATE TABLE conversions (
   string VARCHAR(100)
 );
 
-CREATE view bookView AS SELECT book.id,  book.name, series.name series_name, library.name library_name, book.page_count,  book.file_size, book.file_path FROM book JOIN library ON book.library_id = library.id JOIN series ON  book.series_id = series.id;
+CREATE view bookView AS SELECT book.id,  book.name, series.name series_name, series.id series_id, library.name library_name, book.page_count,  book.file_size, book.file_path FROM book JOIN library ON book.library_id = library.id JOIN series ON  book.series_id = series.id;
 CREATE view seriesView AS SELECT series.id, series.name, series.file_path, series.library_id, library.name library_name, (SELECT COUNT(*) FROM book WHERE book.series_id = series.id) book_count, (SELECT json_agg(books) from  (SELECT name, id, page_count from book where book.series_id = series.id ) as books) books from series JOIN library on series.library_id = library.id; 
 
 CREATE VIEW pageView AS SELECT page.name, page.book_id, page.number, page.media_type, book.file_path book_path, book.name file_name from page join book on page.book_id = book.id;

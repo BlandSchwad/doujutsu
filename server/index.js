@@ -15,8 +15,10 @@ const {
   deleteSeriesController,
   pageViewController,
   ocrController,
+  allSeries,
 } = require("./controllers");
 const path = require("path");
+const { updateLibrary } = require("./models");
 
 require("dotenv").config();
 
@@ -32,7 +34,7 @@ app.listen(process.env.SERVER_PORT, () => {
   );
 });
 
-app.get("/all", fetchAllController);
+app.get("/all", allSeries);
 
 //Library Routes
 app.get("/libraries", librariesController);
@@ -42,7 +44,22 @@ app.get("/library/:library_id", libraryController);
 app.delete("/library/:library_id", libraryDeleteController);
 app.post("/library", libraryPostController);
 app.put("/library/:library_id", libraryPutController);
-
+app.patch("/library/:library_id", async (req, res) => {
+  try {
+    let modifiedDate = Date.now();
+    console.log(req.body);
+    await updateLibrary({
+      library_id: req.params.library_id,
+      name: req.body.name,
+      path: req.body.path,
+      modDate: modifiedDate,
+    });
+    res.status(200).send("Library Updated");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+});
 //Series
 app.get("/series/:series_id", seriesController);
 app.delete("/series/:series_id", deleteSeriesController);

@@ -154,13 +154,17 @@ module.exports.deleteSeries = async (series_id) => {
 };
 
 module.exports.getSeriesInfo = async (series_id) => {
+  let query = { text: "SELECT * FROM seriesView" };
+  if (series_id != undefined) {
+    query.text += ` WHERE id = $1`;
+    query.values = [series_id];
+  }
   try {
-    let result = await db.query({
-      text: `
-      SELECT * FROM seriesView WHERE id = $1`,
-      values: [series_id],
-    });
-    return result[0];
+    let result = await db.query(query);
+    if (result.length === 1) {
+      return result[0];
+    }
+    return result;
   } catch (err) {
     return err;
   }
