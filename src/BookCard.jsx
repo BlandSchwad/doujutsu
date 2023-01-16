@@ -1,36 +1,53 @@
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./BookCard.css";
-
+import escapeId from "./assets/escapeId";
 function BookCard({ book }) {
-  const escapedBookId = book.id.replaceAll("/", "%2F");
+  const escapedBookId = escapeId(book.id);
   const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
   return (
-    <div className="BookCard">
-      <Card bg="secondary" border="primary">
-        <Col>
-          <Row>
-            <Card.Header className="BookCardHeader">
-              <Card.Img
-                variant="top"
-                src={`${serverUrl}/page/${escapedBookId}?page=0`}
-              />
-            </Card.Header>
-          </Row>
-          <Row>
-            <Card.Body>
-              <LinkContainer to={`/book/${escapedBookId}`}>
-                <Card.Link className="BookCardTitle">{book.name}</Card.Link>
-              </LinkContainer>
-            </Card.Body>
-          </Row>
-          <Row>
-            <Card.Subtitle>{book.page_count} Pages</Card.Subtitle>
-          </Row>
-        </Col>
-      </Card>
-    </div>
+    <LinkContainer to={`/book/${escapedBookId}`}>
+      <article className="card">
+        <header className="card-header">
+          <img
+            className="card-img"
+            src={`${serverUrl}/page/${escapedBookId}?page=0`}
+          />
+        </header>
+        <footer className="card-footer">
+          <p className="card-title">{book.name}</p>
+          <p className="card-pagecount">{book.page_count} pages</p>
+        </footer>
+      </article>
+    </LinkContainer>
   );
+
+  // return (
+  //   <div className="BookCard">
+  //     <Card bg="secondary" border="primary">
+  //       <Col>
+  //         <Row>
+  //           <Card.Header className="BookCardHeader">
+  //             <Card.Img
+  //               variant="top"
+  //               src={`${serverUrl}/page/${escapedBookId}?page=0`}
+  //             />
+  //           </Card.Header>
+  //         </Row>
+  //         <Row>
+  //           <Card.Body>
+  //             <LinkContainer to={`/book/${escapedBookId}`}>
+  //               <Card.Link className="BookCardTitle">{book.name}</Card.Link>
+  //             </LinkContainer>
+  //           </Card.Body>
+  //         </Row>
+  //         <Row>
+  //           <Card.Subtitle>{book.page_count} Pages</Card.Subtitle>
+  //         </Row>
+  //       </Col>
+  //     </Card>
+  //   </div>
+  // );
 }
 
 export default BookCard;

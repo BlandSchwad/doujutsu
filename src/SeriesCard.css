@@ -1,22 +1,46 @@
-.SeriesCard {
-  height: 10vw;
-  width: auto;
-  padding: 10%;
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  overflow: hidden;
+  padding: 2rem;
+}
+.card {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+
+  height: 210px;
+  width: 250px;
+  min-width: 250px;
+  padding: 0.5rem;
+  margin: 0.3rem;
 }
 
-.card-body {
+.card-header {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: end;
-  width: auto;
-  height: 8vh;
-  overflow: hidden;
-  overflow-wrap: break-word;
+}
+.card-footer {
+  height: 25%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-basis: fit-content;
 }
 
-.card-img-top {
-  padding: 0%;
+.card-header > img {
+  height: 100%;
   width: 100%;
-  height: 15vw;
   object-fit: contain;
+}
+.card-title:hover {
+  text-decoration: underline;
+}
+
+.card:hover {
+  box-shadow: 2px 2px 2px 2px #36317c;
+  transition: 0.2s;
 }

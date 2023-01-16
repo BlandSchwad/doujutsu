@@ -65,15 +65,11 @@ function Series() {
               </Col>
             </Row>
             <Row>
-              <CardGroup>
+              <article className="card-list">
                 {data[0].books.map((book) => {
-                  return (
-                    <Col key={book.id}>
-                      <BookCard book={book} />
-                    </Col>
-                  );
+                  return <BookCard book={book} />;
                 })}
-              </CardGroup>
+              </article>
             </Row>
           </>
         ) : null}

@@ -11,32 +11,23 @@ function Libraries() {
   return (
     <>
       <Bar2 />
-      <Container fluid>
-        <Row>
-          <ToolBar barType="all" data={data} title={"All Libraries"} />
-        </Row>
-        <Row>
-          {error ? (
-            <>Error</>
-          ) : isLoading ? (
-            <>LOADING</>
-          ) : data ? (
-            data.length > 0 ? (
-              <CardGroup>
-                {data.map((series) => {
-                  return (
-                    <Col key={series.id}>
-                      <SeriesCard series={series} />
-                    </Col>
-                  );
-                })}
-              </CardGroup>
-            ) : (
-              <>No Series Found</>
-            )
-          ) : null}
-        </Row>
-      </Container>
+
+      <ToolBar barType="all" data={data} title={"All Libraries"} />
+      {error ? (
+        <>Error</>
+      ) : isLoading ? (
+        <>Loading Series</>
+      ) : data ? (
+        data.length > 0 ? (
+          <article className="card-list">
+            {data.map((series) => {
+              return <SeriesCard series={series} />;
+            })}
+          </article>
+        ) : (
+          <>No Series Found</>
+        )
+      ) : null}
     </>
   );
 }
