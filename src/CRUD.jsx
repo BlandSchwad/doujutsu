@@ -237,7 +237,7 @@ function Crud() {
                 <Button
                   onClick={() => {
                     api.get(`/library/scan/${library.id}`).then(() => {
-                      getLibraries();
+                      // getLibraries();
                     });
                   }}
                 >

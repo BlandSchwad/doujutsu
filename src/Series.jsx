@@ -26,12 +26,6 @@ function Series() {
   const { data, error, isLoading } = useGetSeriesQuery(escapedSeriesId);
   const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
 
-  const deleteSeries = () => {
-    api.delete(`/series/${escapedSeriesId}`).catch((err) => {
-      console.log(err);
-    });
-  };
-
   return (
     <>
       <Bar2 />

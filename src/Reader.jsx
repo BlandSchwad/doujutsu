@@ -49,7 +49,9 @@ function Reader() {
     let postData = crop;
     let pageData = document.getElementById("pageImage");
     postData.res = [pageData.clientWidth, pageData.clientHeight];
-    postData.url = `${serverUrl}/page/${book_id}?page=${activePage}`;
+    postData.id = book_id;
+    postData.page = activePage;
+    // postData.url = `${serverUrl}/page/${book_id}?page=${activePage}`;
 
     api
       .post(`/ocr`, postData)

@@ -217,7 +217,7 @@ module.exports.ocrController = async (req, res) => {
     res.status(201).send(kanji.data);
   } catch (err) {
     console.log(err);
-    res.status(401).send(err);
+    res.status(500).send(err);
   }
 };
 

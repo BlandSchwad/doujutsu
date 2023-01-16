@@ -13,21 +13,23 @@ function Libraries() {
       <Bar2 />
 
       <ToolBar barType="all" data={data} title={"All Libraries"} />
-      {error ? (
-        <>Error</>
-      ) : isLoading ? (
-        <>Loading Series</>
-      ) : data ? (
-        data.length > 0 ? (
-          <article className="card-list">
-            {data.map((series) => {
-              return <SeriesCard series={series} />;
-            })}
-          </article>
-        ) : (
-          <>No Series Found</>
-        )
-      ) : null}
+      <section>
+        {error ? (
+          <>Error</>
+        ) : isLoading ? (
+          <>Loading Series</>
+        ) : data ? (
+          data.length > 0 ? (
+            <section className="card-list">
+              {data.map((series) => {
+                return <SeriesCard series={series} />;
+              })}
+            </section>
+          ) : (
+            <>No Series Found</>
+          )
+        ) : null}
+      </section>
     </>
   );
 }
