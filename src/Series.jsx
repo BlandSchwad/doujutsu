@@ -61,7 +61,7 @@ function Series() {
             <Row>
               <article className="card-list">
                 {data[0].books.map((book) => {
-                  return <BookCard book={book} />;
+                  return <BookCard book={book} key={book.id} />;
                 })}
               </article>
             </Row>

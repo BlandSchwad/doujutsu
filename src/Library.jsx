@@ -26,7 +26,7 @@ function Library() {
         ) : data ? (
           <article className="card-list">
             {data.children.map((series) => {
-              return <SeriesCard series={series} />;
+              return <SeriesCard series={series} key={series.id} />;
             })}
           </article>
         ) : null}
