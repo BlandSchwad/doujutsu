@@ -6,11 +6,12 @@ import {
   Offcanvas,
   Col,
   Form,
+  Button,
 } from "react-bootstrap";
 import brandLogo from "./assets/brand.png";
 import { LinkContainer } from "react-router-bootstrap";
 import { useGetAllLibrariesQuery } from "./services/mangaserver";
-
+import LibraryForm from "./features/forms/LibraryForm";
 function Bar2() {
   const { data, error, isLoading } = useGetAllLibrariesQuery();
 
@@ -64,8 +65,7 @@ function Bar2() {
                   })}
                 </>
               ) : null}
-
-              <NavDropdown.Item key="addLib">Add Library+</NavDropdown.Item>
+              <LibraryForm type="add" nav={true} />
             </NavDropdown>
           </Nav>
         </Navbar.Offcanvas>
@@ -73,7 +73,7 @@ function Bar2() {
         <Col xs={1}>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${false}`} />
         </Col>
-        <Col xs={10}>
+        <Col xs={8}>
           <Form>
             <Form.Control
               type="search"

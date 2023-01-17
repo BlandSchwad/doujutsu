@@ -24,14 +24,11 @@ function Library() {
         ) : isLoading ? (
           <>Loading</>
         ) : data ? (
-          data.length >
-          0(
-            <article className="card-list">
-              {data.children.map((series) => {
-                return <SeriesCard series={series} />;
-              })}
-            </article>
-          )
+          <article className="card-list">
+            {data.children.map((series) => {
+              return <SeriesCard series={series} />;
+            })}
+          </article>
         ) : null}
         <Row>{/* <ToolBar barType="library" data={libraryData} /> */}</Row>
       </Container>

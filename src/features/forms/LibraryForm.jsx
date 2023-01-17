@@ -1,4 +1,10 @@
-import { Form, Button, FloatingLabel, Modal } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  FloatingLabel,
+  Modal,
+  NavDropdown,
+} from "react-bootstrap";
 import React, { useState } from "react";
 import { Formik, useField } from "formik";
 import * as Yup from "yup";
@@ -21,8 +27,7 @@ const TextInput = ({ label, ...props }) => {
     </>
   );
 };
-function LibraryForm({ type, info }) {
-  // const showModal = useSelector((state) => state.addModal.view);
+function LibraryForm({ type, info, nav }) {
   const [showModal, setShowModal] = useState(false);
   const [addNewLibrary, { isLoading }] = useAddNewLibraryMutation();
   const [patchLibrary] = usePatchLibraryMutation();
@@ -117,13 +122,24 @@ function LibraryForm({ type, info }) {
           </Modal>
         )}
       </Formik>
-      <Button
-        onClick={() => {
-          setShowModal(true);
-        }}
-      >
-        {type === "add" ? "Add Library" : "Edit"}
-      </Button>
+      {nav === true ? (
+        <NavDropdown.Item
+          key="addLib"
+          onClick={() => {
+            setShowModal(true);
+          }}
+        >
+          Add Library+
+        </NavDropdown.Item>
+      ) : (
+        <Button
+          onClick={() => {
+            setShowModal(true);
+          }}
+        >
+          {type === "add" ? "Add Library" : "Edit"}
+        </Button>
+      )}
     </>
   );
 }

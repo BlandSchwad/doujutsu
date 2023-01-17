@@ -22,7 +22,7 @@ function Libraries() {
           data.length > 0 ? (
             <section className="card-list">
               {data.map((series) => {
-                return <SeriesCard series={series} />;
+                return <SeriesCard series={series} key={series.id} />;
               })}
             </section>
           ) : (

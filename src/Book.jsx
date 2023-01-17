@@ -8,11 +8,10 @@ import "./Book.css";
 import { useGetBookQuery } from "./services/mangaserver";
 import ToolBar from "./Toolbar";
 import Bar2 from "./Bar2";
-
+import escapeId from "./assets/escapeId";
 function Book() {
   const { book_id } = useParams();
-  const [bookData, setBookData] = useState({});
-  const escapedBookId = book_id.replaceAll("/", "%2F");
+  const escapedBookId = escapeId(book_id);
   const { data, error, isLoading } = useGetBookQuery(escapedBookId);
   const serverUrl = `http://${process.env.REACT_APP_BACKEND_SERVER}:${process.env.REACT_APP_BACKEND_PORT}`;
 
