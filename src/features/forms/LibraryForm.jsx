@@ -12,21 +12,21 @@ import {
   useAddNewLibraryMutation,
   usePatchLibraryMutation,
 } from "../../services/mangaserver";
+import TextInput from "./TextInput";
+// const TextInput = ({ label, ...props }) => {
+//   const [field, meta] = useField(props);
 
-const TextInput = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
-
-  return (
-    <>
-      <FloatingLabel label={label}>
-        <Form.Control className="text-input" {...field} {...props} />
-      </FloatingLabel>
-      {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
-      ) : null}
-    </>
-  );
-};
+//   return (
+//     <>
+//       <FloatingLabel label={label}>
+//         <Form.Control className="text-input" {...field} {...props} />
+//       </FloatingLabel>
+//       {meta.touched && meta.error ? (
+//         <div className="error">{meta.error}</div>
+//       ) : null}
+//     </>
+//   );
+// };
 function LibraryForm({ type, info, nav }) {
   const [showModal, setShowModal] = useState(false);
   const [addNewLibrary, { isLoading }] = useAddNewLibraryMutation();

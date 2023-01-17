@@ -87,7 +87,7 @@ module.exports.getLibViews = async () => {
 module.exports.getLibView = async (id) => {
   try {
     let result = await db.query(
-      `SELECT name, file_path, created_date, last_modified_date, id, (SELECT json_agg(series) from (SELECT * FROM seriesView) AS series ) children FROM library WHERE id = $1`,
+      `SELECT name, file_path, created_date, last_modified_date, id, (SELECT json_agg(series) from (SELECT * FROM seriesView WHERE seriesView.library_id = $1) AS series ) children FROM library WHERE id = $1`,
       [id]
     );
     return result[0];
