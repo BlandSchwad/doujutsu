@@ -1,0 +1,91 @@
+#Reader {
+  display: flex;
+}
+.pageQuarter {
+  width: 25vw;
+}
+
+#center {
+  display: flex;
+  justify-content: center;
+  width: 50vw;
+}
+
+#pageImage {
+  max-width: 100vw;
+  max-height: 100vh;
+  object-fit: contain;
+}
+
+#topMenu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: min-content;
+
+  overflow: hidden;
+}
+
+#bottomMenu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: min-content;
+}
+
+.ocb {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+#menuBody {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#bGroup {
+  padding: 1vh;
+}
+
+.pageContainer {
+  object-fit: contain;
+}
+
+#abutt {
+  height: 50%;
+  object-fit: contain;
+}
+
+#addLibraryModal {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.ModalForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 10vw;
+}
+
+.modal-header {
+  display: flex;
+
+  flex-direction: column;
+}
+
+#scardview {
+  height: auto;
+}
+
+#center {
+  width: 50vw;
+  height: 100vh;
+}

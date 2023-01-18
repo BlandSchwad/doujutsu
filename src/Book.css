@@ -1,0 +1,5 @@
+#bookThumb {
+  height: 45vh;
+  width: auto;
+  object-fit: contain;
+}
