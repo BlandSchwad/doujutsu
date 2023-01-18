@@ -6,7 +6,13 @@ const TextInput = ({ label, ...props }) => {
   return (
     <>
       <FloatingLabel label={label}>
-        <Form.Control className="text-input" {...field} {...props} />
+        <Form.Control
+          className="text-input"
+          {...field}
+          {...props}
+          isValid={meta.touched && !meta.error}
+          isInvalid={meta.error}
+        />
       </FloatingLabel>
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
