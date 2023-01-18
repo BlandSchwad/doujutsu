@@ -1,7 +1,7 @@
 import TextInput from "./TextInput";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import React, from "react";
+import React from "react";
 import { Form, Button } from "react-bootstrap";
 function Register() {
   return (
