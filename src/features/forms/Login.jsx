@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import TextInput from "./TextInput";
+import api from "../../assets/api";
 
 function Login() {
   return (
@@ -22,7 +23,8 @@ function Login() {
           .required("Enter your password"),
       })}
       onSubmit={async (values, { resetForm }) => {
-        alert(JSON.stringify(values, null, 2));
+        //alert(JSON.stringify(values, null, 2));
+        api.post("/login", values);
       }}
     >
       {(formik) => (

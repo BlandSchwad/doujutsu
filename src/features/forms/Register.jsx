@@ -30,7 +30,7 @@ function Register() {
       }}
     >
       {(formik) => (
-        <section id="login-form">
+        <section id="registration-form">
           <h1>Register</h1>
           <Form onSubmit={formik.handleSubmit}>
             <TextInput

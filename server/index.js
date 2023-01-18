@@ -73,3 +73,13 @@ app.get("/page/:book_id", pageViewController);
 
 //OCR
 app.post("/ocr", ocrController);
+
+//Authentication Routes
+app.post("/register", (req, res) => {
+  console.log(req.body);
+  res.status(201).send(req.body);
+});
+app.post("/login", (req, res) => {
+  console.log(req.body.username);
+  res.status(201).send(req.body);
+});
