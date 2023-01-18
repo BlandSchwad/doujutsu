@@ -1,6 +1,5 @@
 import React from "react";
-// import axios from "axios";
-import Bar2 from "./Bar2";
+import Bar from "./Bar";
 import { useParams } from "react-router-dom";
 import { CardGroup, Col, Container, Row } from "react-bootstrap";
 import SeriesCard from "./SeriesCard";
@@ -16,7 +15,7 @@ function Library() {
 
   return (
     <>
-      <Bar2 />
+      <Bar />
       <ToolBar barType="library" data={data} />
       <Container fluid>
         {error ? (

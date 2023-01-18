@@ -1,13 +1,10 @@
-// import axios from "axios";
-import api from "./assets/api";
-import { useEffect, useState } from "react";
 import { Button, Container, Row, Col, Image } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import "./Book.css";
 import { useGetBookQuery } from "./services/mangaserver";
 import ToolBar from "./Toolbar";
-import Bar2 from "./Bar2";
+import Bar from "./Bar";
 import escapeId from "./assets/escapeId";
 function Book() {
   const { book_id } = useParams();
@@ -18,7 +15,7 @@ function Book() {
   return (
     <>
       {" "}
-      <Bar2 />
+      <Bar />
       <Container fluid>
         {error ? (
           <>Error</>
@@ -65,59 +62,6 @@ function Book() {
       </Container>
     </>
   );
-  // return (
-  //   <Container fluid>
-  //     <Row>Menu</Row>
-  //     <Row>
-  //       <Col xs="auto">
-  //         <div id="thumbOverlay">
-  //           <Image
-  //             id="bookThumb"
-  //             src={`${serverUrl}/page/${escapedBookId}?page=0`}
-  //             alt="book thumbnail"
-  //             fluid
-  //             thumbnail
-  //           />
-  //         </div>
-  //       </Col>
-  //       <Col xs={6}>
-  //         {bookData.file_path ? (
-  //           <div id="bookInfo">
-  //             <p>{`${bookData.series_name} in ${bookData.library_name}`}</p>
-  //             <p>{`${bookData.name}`}</p>
-  //             <p>{`${bookData.page_count} pages`}</p>
-
-  //             <LinkContainer to={`/read/${escapedBookId}`}>
-  //               <Button>Read</Button>
-  //             </LinkContainer>
-  //           </div>
-  //         ) : (
-  //           "LOADING"
-  //         )}
-  //       </Col>
-  //     </Row>
-  //     <Row>
-  //       <Col xs="auto">
-  //         <p> Size </p>
-  //         <p> Format </p>
-  //         <p> File </p>
-  //       </Col>
-  //       <Col>
-  //         <p>
-  //           {bookData.file_size
-  //             ? `${(bookData.file_size * 10e-7).toPrecision(4)} MB`
-  //             : "Loading"}
-  //         </p>
-  //         <p>{bookData.name ? `${bookData.name.slice(-3)}` : `Loading`}</p>
-  //         <p>
-  //           {bookData.file_path
-  //             ? `${bookData.file_path}/${bookData.name}`
-  //             : `Loading`}
-  //         </p>
-  //       </Col>
-  //     </Row>
-  //   </Container>
-  // );
 }
 
 export default Book;

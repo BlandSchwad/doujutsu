@@ -1,10 +1,8 @@
-// import axios from "axios";
 import api from "./assets/api";
-import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import LibraryForm from "./features/forms/LibraryForm";
 import DeleteModal from "./features/modals/DeleteModal";
-import Bar2 from "./Bar2";
+import Bar from "./Bar";
 import {
   useAddNewLibraryMutation,
   useDeleteLibraryMutation,
@@ -18,7 +16,7 @@ function Crud() {
 
   return (
     <div>
-      <Bar2 />
+      <Bar />
       {error ? (
         <>ERROR</>
       ) : loadingLibraries ? (

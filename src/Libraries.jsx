@@ -3,14 +3,14 @@ import { CardGroup, Row, Col, Container } from "react-bootstrap";
 import SeriesCard from "./SeriesCard";
 import { useGetAllSeriesQuery } from "./services/mangaserver";
 import ToolBar from "./Toolbar";
-import Bar2 from "./Bar2";
+import Bar from "./Bar";
 
 function Libraries() {
   const { data, error, isLoading } = useGetAllSeriesQuery();
 
   return (
     <>
-      <Bar2 />
+      <Bar />
 
       <ToolBar barType="all" data={data} title={"All Libraries"} />
       <section>

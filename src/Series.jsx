@@ -1,6 +1,3 @@
-// import axios from "axios";
-import { useEffect, useState } from "react";
-
 import { useParams, useNavigate } from "react-router-dom";
 import BookCard from "./BookCard";
 import {
@@ -17,7 +14,7 @@ import api from "./assets/api";
 import "./Series.css";
 import { useGetSeriesQuery } from "./services/mangaserver";
 import ToolBar from "./Toolbar";
-import Bar2 from "./Bar2";
+import Bar from "./Bar";
 
 function Series() {
   const { series_id } = useParams();
@@ -28,7 +25,7 @@ function Series() {
 
   return (
     <>
-      <Bar2 />
+      <Bar />
       <Container fluid>
         {error ? (
           <>Error</>

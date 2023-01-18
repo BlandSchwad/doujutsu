@@ -1,4 +1,3 @@
-import { Card, Container, Row, Col } from "react-bootstrap";
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import "./SeriesCard.css";
