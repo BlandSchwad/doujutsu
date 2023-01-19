@@ -16,7 +16,7 @@ import "react-image-crop/dist/ReactCrop.css";
 import "./Reader.css";
 import escapeId from "./assets/escapeId";
 import api from "./assets/api";
-
+import HelpModal from "./features/modals/HelpModal";
 function Reader() {
   const { book_id } = useParams();
   const escapedBookId = escapeId(book_id);
@@ -29,7 +29,16 @@ function Reader() {
   const [activePage, setActivePage] = useState(0);
   const [translation, setTranslation] = useState("");
   const [bookData, setBookData] = useState({});
+  // const [fullScreen, setFullScreen] = useState("false");
 
+  const toggleFullScreen = () => {
+    let fullScreenCheck = !(document.fullscreenElement === null);
+    if (fullScreenCheck) {
+      document.exitFullscreen();
+    } else {
+      document.documentElement.requestFullscreen();
+    }
+  };
   useEffect(() => {
     api
       .get(`/book/${escapedBookId}`)
@@ -80,7 +89,20 @@ function Reader() {
   }
 
   return (
-    <div className="readerMenu" id="Reader">
+    <div
+      onKeyDown={(e) => {
+        if (e.key === "f") {
+          toggleFullScreen();
+        } else if (e.key === "ArrowLeft") {
+          decrementActivePage();
+        } else if (e.key === "ArrowRight") {
+          incrementActivePage();
+        }
+      }}
+      className="readerMenu"
+      id="Reader"
+      tabIndex={0}
+    >
       <Offcanvas
         id="topMenu"
         show={show}
@@ -117,12 +139,13 @@ function Reader() {
           <Icon.EyeFill />
         </ToggleButton>
         <ButtonGroup id="bGroup">
-          <Button>
+          <Button onClick={toggleFullScreen}>
             <Icon.Fullscreen />
           </Button>
-          <Button>
+          <HelpModal />
+          {/* <Button>
             <Icon.QuestionCircleFill />
-          </Button>
+          </Button> */}
           <Button>
             <Icon.GearFill />
           </Button>
@@ -170,7 +193,7 @@ function Reader() {
         {cropMode ? (
           <div>
             <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
-              <Image
+              <img
                 id="pageImage"
                 alt="Current Page!"
                 src={`${serverUrl}/page/${escapedBookId}?page=${activePage}`}
@@ -179,7 +202,7 @@ function Reader() {
           </div>
         ) : (
           <>
-            <Image
+            <img
               onClick={() => {
                 setShow(!show);
               }}
