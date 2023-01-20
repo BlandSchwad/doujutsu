@@ -3,6 +3,9 @@ import { Button } from "react-bootstrap";
 import LibraryForm from "./features/forms/LibraryForm";
 import DeleteModal from "./features/modals/DeleteModal";
 import Bar from "./Bar";
+import { useSelector, useDispatch } from "react-redux";
+import { toggle } from "./features/modals/modalSlice";
+
 import {
   useAddNewLibraryMutation,
   useDeleteLibraryMutation,
@@ -13,6 +16,8 @@ import {
 function Crud() {
   const { data, error, loadingLibraries } = useGetAllLibrariesQuery();
   const [deleteLibrary] = useDeleteLibraryMutation();
+  const dispatch = useDispatch();
+  const showDeleteModal = useSelector((state) => state.modal.showDelete);
 
   return (
     <div>
@@ -40,14 +45,10 @@ function Crud() {
                   </li>
                   <li>Path: {library.file_path} </li>
                 </ul>
-                {/* <Button
-                  onClick={() => {
-                    deleteLibrary(library.id);
-                  }}
-                >
-                  Delete
-                </Button>{" "} */}
                 <DeleteModal type="Library" info={library} />
+                <Button onClick={() => dispatch(toggle("delete"))}>
+                  Delete
+                </Button>{" "}
                 <LibraryForm
                   type="edit"
                   info={{

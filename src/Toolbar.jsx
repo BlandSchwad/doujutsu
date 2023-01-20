@@ -10,10 +10,15 @@ import {
   ButtonGroup,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import DeleteModal from "./features/modals/DeleteModal";
 import "./Toolbar.css";
 import escapeId from "./assets/escapeId";
+import { useSelector, useDispatch } from "react-redux";
+import { toggle } from "./features/modals/modalSlice";
 
 function ToolBar(props) {
+  const dispatch = useDispatch();
+  const showDeleteModal = useSelector((state) => state.modal.showDelete);
   let title =
     props.barType === "all"
       ? "All Libraries"
@@ -89,6 +94,7 @@ function ToolBar(props) {
 
   return (
     <Container id="toolbar" fluid>
+      <DeleteModal info={props.data} />
       <Row>
         <Col>
           <div className="toolbar-button-group">
@@ -100,7 +106,7 @@ function ToolBar(props) {
                 <Button>
                   <Icon.Pencil />
                 </Button>
-                <Button>
+                <Button onClick={() => dispatch(toggle("delete"))}>
                   <Icon.Trash />
                 </Button>
               </>

@@ -18,7 +18,7 @@ import escapeId from "./assets/escapeId";
 import api from "./assets/api";
 import HelpModal from "./features/modals/HelpModal";
 import { useSelector, useDispatch } from "react-redux";
-import { toggle } from "./features/modals/helpModalSlice";
+import { toggle } from "./features/modals/modalSlice";
 
 function Reader() {
   const { book_id } = useParams();
@@ -41,7 +41,7 @@ function Reader() {
       document.documentElement.requestFullscreen();
     }
   };
-  const showHelpModal = useSelector((state) => state.helpModal.show);
+  const showHelpModal = useSelector((state) => state.modal.showHelp);
   const dispatch = useDispatch();
   useEffect(() => {
     api
@@ -106,7 +106,7 @@ function Reader() {
         } else if (e.key === "End") {
           setActivePage(bookData.page_count);
         } else if (e.key === "h") {
-          dispatch(toggle());
+          dispatch(toggle("help"));
         } else if (e.key === "m") {
           setShow(!show);
         } else if (e.key === "i") {
@@ -157,7 +157,7 @@ function Reader() {
           <Button onClick={toggleFullScreen}>
             <Icon.Fullscreen />
           </Button>
-          <Button onClick={() => dispatch(toggle())}>
+          <Button onClick={() => dispatch(toggle("help"))}>
             <Icon.QuestionCircleFill />
           </Button>
           <Button>

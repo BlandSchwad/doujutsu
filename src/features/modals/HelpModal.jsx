@@ -2,10 +2,10 @@ import { Modal, Button } from "react-bootstrap";
 import * as Icon from "react-bootstrap-icons";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { toggle } from "./helpModalSlice";
+import { toggle } from "./modalSlice";
 
 const HelpModal = () => {
-  const showHelp = useSelector((state) => state.helpModal.show);
+  const showHelp = useSelector((state) => state.modal.showHelp);
   const dispatch = useDispatch();
   const menuSections = [
     {
@@ -34,7 +34,7 @@ const HelpModal = () => {
         size="lg"
         show={showHelp}
         onHide={() => {
-          dispatch(toggle());
+          dispatch(toggle("help"));
         }}
       >
         <Modal.Header closeButton />
