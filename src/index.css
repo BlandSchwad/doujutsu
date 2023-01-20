@@ -35,3 +35,35 @@ code {
 #App {
   height: 100%;
 }
+
+.help-item {
+  display: flex;
+  align-content: center;
+  /* padding: 10px; */
+}
+.help-item:hover {
+  background-color: grey;
+}
+.help-body {
+  display: flex;
+  margin: 4%;
+  flex-wrap: wrap;
+}
+.help-key {
+  color: white;
+  /* margin: 2%; */
+  background-color: darkgrey;
+  /* box-shadow: 10px 5px 5px red; */
+  border-color: green;
+  padding: 5px;
+  align-self: flex-start;
+}
+
+.help-section {
+  margin: 1%;
+}
+
+.help-desc {
+  align-items: flex-end;
+  padding: 5px;
+}

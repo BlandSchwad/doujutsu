@@ -1,4 +1,3 @@
-import { Card, Container, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./BookCard.css";
 import escapeId from "./assets/escapeId";

@@ -17,6 +17,9 @@ import "./Reader.css";
 import escapeId from "./assets/escapeId";
 import api from "./assets/api";
 import HelpModal from "./features/modals/HelpModal";
+import { useSelector, useDispatch } from "react-redux";
+import { toggle } from "./features/modals/helpModalSlice";
+
 function Reader() {
   const { book_id } = useParams();
   const escapedBookId = escapeId(book_id);
@@ -29,7 +32,6 @@ function Reader() {
   const [activePage, setActivePage] = useState(0);
   const [translation, setTranslation] = useState("");
   const [bookData, setBookData] = useState({});
-  // const [fullScreen, setFullScreen] = useState("false");
 
   const toggleFullScreen = () => {
     let fullScreenCheck = !(document.fullscreenElement === null);
@@ -39,6 +41,8 @@ function Reader() {
       document.documentElement.requestFullscreen();
     }
   };
+  const showHelpModal = useSelector((state) => state.helpModal.show);
+  const dispatch = useDispatch();
   useEffect(() => {
     api
       .get(`/book/${escapedBookId}`)
@@ -97,12 +101,23 @@ function Reader() {
           decrementActivePage();
         } else if (e.key === "ArrowRight") {
           incrementActivePage();
+        } else if (e.key === "Home") {
+          setActivePage(0);
+        } else if (e.key === "End") {
+          setActivePage(bookData.page_count);
+        } else if (e.key === "h") {
+          dispatch(toggle());
+        } else if (e.key === "m") {
+          setShow(!show);
+        } else if (e.key === "i") {
+          setCropMode(!cropMode);
         }
       }}
       className="readerMenu"
       id="Reader"
       tabIndex={0}
     >
+      <HelpModal />
       <Offcanvas
         id="topMenu"
         show={show}
@@ -142,10 +157,9 @@ function Reader() {
           <Button onClick={toggleFullScreen}>
             <Icon.Fullscreen />
           </Button>
-          <HelpModal />
-          {/* <Button>
+          <Button onClick={() => dispatch(toggle())}>
             <Icon.QuestionCircleFill />
-          </Button> */}
+          </Button>
           <Button>
             <Icon.GearFill />
           </Button>

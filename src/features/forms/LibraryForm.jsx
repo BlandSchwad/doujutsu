@@ -1,10 +1,4 @@
-import {
-  Form,
-  Button,
-  FloatingLabel,
-  Modal,
-  NavDropdown,
-} from "react-bootstrap";
+import { Form, Button, Modal, NavDropdown } from "react-bootstrap";
 import React, { useState } from "react";
 import { Formik, useField } from "formik";
 import * as Yup from "yup";
@@ -13,20 +7,7 @@ import {
   usePatchLibraryMutation,
 } from "../../services/mangaserver";
 import TextInput from "./TextInput";
-// const TextInput = ({ label, ...props }) => {
-//   const [field, meta] = useField(props);
 
-//   return (
-//     <>
-//       <FloatingLabel label={label}>
-//         <Form.Control className="text-input" {...field} {...props} />
-//       </FloatingLabel>
-//       {meta.touched && meta.error ? (
-//         <div className="error">{meta.error}</div>
-//       ) : null}
-//     </>
-//   );
-// };
 function LibraryForm({ type, info, nav }) {
   const [showModal, setShowModal] = useState(false);
   const [addNewLibrary, { isLoading }] = useAddNewLibraryMutation();
